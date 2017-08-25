@@ -7,7 +7,7 @@ The side effect of the this project are the following:
  - use a virtual token to real life networking
 
 
-#### Token specification:
+#### Token specification
 - Name: Token of Gratitude
 - Symbol: ToG
 - Total supply: 500
@@ -29,8 +29,19 @@ Here is the link to MSF public Ethereum address:
 TODO: Get the link from MSF
 
 Contract code: [Github link]
+### Token price
+The price is given for each set of 100 tokens as follows:
+ 1. 100 tokens at 0,1 eth each
+ 2. 100 tokens at 0,2 eth each
+ 3. 100 tokens at 0,5 eth each
+ 4. 100 tokens at 0,75 eth each
+ 5. 100 tokens at 1 eth each
 
-### Token usability:
+ Current price is accessible though an constant public function and will be visible on the website.
+ It's possible to buy more then 100 tokens at once - the price will be recounted according to the value of the transaction
+ Anything send above the current token price will be considered a donation.
+
+### Token usability
 The tokens can be redeemed for a beer. Yes, an actual physical possibly drought beer.
 Basically, I'll get you a drink and we can have a chat about crypto or whatever.
 Or you can just tell me to leave after. Well, that's up to you!
