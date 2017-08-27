@@ -26,9 +26,8 @@ If a certain amount of money is raised I commit myself to the following:
 
 The MSF donation is strictly coded in the contract using Oraclize service to perform the current exchange rate check.
 Here is the link to MSF public Ethereum address:
-TODO: Get the link from MSF
+TODO: Get a link from MSF
 
-Contract code: [Github link]
 ### Token price
 The price is given for each set of 100 tokens as follows:
  1. 100 tokens at 0,1 eth each
@@ -49,7 +48,7 @@ Or you can just tell me to leave after. Well, that's up to you!
 **When is it possible to reedem your token?**
 
 Anytime we come across each other.
-The expiration of the token is 5 years!
+Expiration of the token is 5 years!
 
 **Where is it possible to redeem the token?**
 
@@ -60,25 +59,25 @@ The expiration of the token is 5 years!
 **How is it possible to redeem the token?**
 
 If you are a token holder, use the "redeem(string message)" function of the contract to send me an encrypted message with your contact and a medium (telegram, facebook,...).
-The redeem service (with encryption) will be available my the website sometime during the sale.
+The redeem service (with encryption) will be available on the website sometime during the sale.
 TODO: choose an encryption method
-
-
 
 ## <sup>not really</sup> FAQ
 **Q:** Is the fundraiser running on Ethereum or EthereumClassic?
 
-**A:** Both, the addresses and pricing are however different.
+**A:** Currently it's only Ethereum. Fundraiser on Ethereum Classic will likely start
+ with a slight delay and adjusted price/goals based on the participation on the ETH contract.
 ___
 **Q:** Will my token be redeemable on future forks?
 
-**A:** Unfortunately, no. I will most likely honor only the tokens on the fork with higher market cap of tradable ethers.
+**A:** Unfortunately, no. I will most likely honor only the tokens on the fork with highest market cap of tradable ethers.
 ___
-**Q:** How do you contribute to the whole thing?!
+**Q:** Will the money raised be used to pay for the beers?
 
-**A:** My financial contribution is theoretically something over 1000 USD.
+**A:** No, all the money will be used for the community cause.
+My financial contribution is therefore theoretically something around 1000 USD.
 if I count 500 * 2 USD for the beers I promise to get you, considering
-an average price of a decent large drough beer in Prague
+an average price of a decent large drought beer in Prague
 (Some people may of course never redeem their tokens but on the other hand
  the price of a beer is likely to rise over the next 5 years)
 ___
