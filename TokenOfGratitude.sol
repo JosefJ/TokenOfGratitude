@@ -22,7 +22,8 @@ contract TokenOfGratitude is StandardToken, PriceChecker {
      * @dev TODO: reconsider changing timestamp to blocknumber estimate
      * @user please check for due diligence: TODO: LINK
      */
-    address constant public addressOfMSF = 0x14723a09acff6d2a60dcdf7aa4aff308fddc160c;
+    // TODO: Add the MSF address
+    address constant public addressOfMSF;
 
     // Timings
     uint256 public issuanceDate;
@@ -131,14 +132,24 @@ contract TokenOfGratitude is StandardToken, PriceChecker {
 
         // Calling checkResult from PriceChecker contract
         uint256 funding = checkResult();
-        uint256 raisedWei;
+        uint256 raisedWei = this.balace;
 
-        if (funding <= 25000) {
+        // If goal isn't met => send everything to MSF
+        if (funding < 10000) {
+            addressOfMSF.transfer(raisedWei);
+            fundsToMSF(toCharity);
+        } else if (funding < 25000) {
+            // if 2nd goal isn't met => send the rest to charity
             raisedWei = this.balance;
-            owner.transfer(raisedWei);
-            fundsToCommunity(raisedWei);
+            uint256 charityShare = toPercentage(funding, funding-10000);
+            uint256 toCharity = fromPercentage(raisedWei, charityShare);
+            // Donate to charity first
+            addressOfMSF.transfer(toCharity);
+            fundsToMSF(toCharity);
+            // Send funds to community;
+            owner.transfer(raisedWei - toCharity);
+            fundsToCommunity(raisedWei - toCharity);
         } else {
-            raisedWei = this.balance;
             uint256 charityShare = toPercentage(funding, funding-25000);
             uint256 toCharity = fromPercentage(raisedWei, charityShare);
             // Donate to charity first
