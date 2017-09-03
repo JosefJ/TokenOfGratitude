@@ -1,33 +1,50 @@
 pragma solidity ^0.4.11;
 
-import 'zeppelin-solidity/contracts/token/StandardToken.sol';
-import "./PriceChecker.sol";
+import 'github.com/OpenZeppelin/zeppelin-solidity/contracts/token/StandardToken.sol';
+import "./DataFeeds.sol";
 
-contract TokenOfGratitude is StandardToken, PriceChecker {
+contract TokenOfGratitude is StandardToken, usingDataFeeds {
     using SafeMath for uint256;
 
+    // Standard token variables
     string constant public name = "Token Of Gratitude";
     string constant public symbol = "ToG";
     uint8 constant public decimals = 0;
     uint256 public totalSupply = 500;
-    uint256 tokensLeft = 500;
 
+    // Utility variables
+    uint256 tokensLeft = 500;
+    address public owner;
     bool public fundraising = true;
+    bool public haveRandom;
     uint256 public donated;
 
-    address public owner;
+    /*
+     * Randomly chosen number for the meal invitation winner
+     * @dev each supporter gets a nonce - the luckyNumber is randomly picked nonce by Oraclize
+     * @dev then points to donorsList[luckyNumber] mapping to get the address of the winner
+     */
+    uint256 luckyNumber;
+    address goldenTicketOwner;
 
     /*
      * Medicines sans frontiers (MSF) | Doctors without borders - the public donation address
-     * @dev TODO: reconsider changing timestamp to blocknumber estimate
-     * @user please check for due diligence: TODO: LINK
+     * @user please check for due diligence:
+     * @user TODO: LINK
+     * @user TODO: IPFS/Swarm link to a screenshot
      */
     // TODO: Add the MSF address
     address constant public addressOfMSF;
 
-    // Timings
-    uint256 public issuanceDate;
+    // Timestamp variable used in constructor
+    uint256 public fundraiserStart;
+    uint256 public fundraiserEnd;
     uint256 public expirationDate;
+
+    // Mapping of supporters for random selection
+    uint256 public donors = 0;
+    mapping (address => bool) donated;
+    mapping (uint256 => address) donorsList;
 
     // Mappings for easier backchecking
     mapping (address => uint) redeemed;
@@ -39,19 +56,34 @@ contract TokenOfGratitude is StandardToken, PriceChecker {
     function TokenOfGratitude(){
         owner = msg.sender;
         issuanceDate = now;
+        fundraisingEnd = now + 60 days;
         expirationDate = now + 5 years;
     }
 
     /**
-     * the supporter fallback function
-     * @dev TODO: describe
+     * The donation fallback function
+     * @dev Implementation of the fallback function for incoming ETH
+     * @user Steps described bellow
      */
     function() payable {
-        require(fundraising);
 
+        // Check if the fundraising is still running
+        require(now <= fundraisingEnd);
+
+        // Sign up first-time donors to the list + give them a nonce so they can win the golden ticket!
+        if (!donated[msg.sender]) {
+            donated[msg.sender] = true;
+            donorsList[donors] = msg.sender;
+            donors += 1;
+        }
+
+        // Check if there are still tokens left (otherwise skipped)
         if (tokensLeft > 0) {
+
+            // See how many tokens can the donor get.
             uint256 toGet = howMany(msg.value);
 
+            // If some, give the tokens to the donor.
             if (toGet > 0) {
                 balances[msg.sender] += toGet;
                 tokensGranted(toGet);
@@ -60,16 +92,19 @@ contract TokenOfGratitude is StandardToken, PriceChecker {
     }
 
     /**
-     * Recursive function that counts amount of tokens to assign if a contribution overflows certain price range
+     * Recursive function that counts amount of tokens to assign (even if a contribution overflows certain price range)
      * @dev Recalculating tokens to receive based on teh currentPrice(2) function.
      * @dev Number of recursive entrances is equal to the number of price levels (not counting the initial call)
      * @return toGet - amount of tokens to receive from the particular price range
+     * @dev TODO: see if SafeMath should be used in any place here other then _value.div(price)
      */
     function howMany(uint256 _value) internal returns (uint256){
 
+        // Check current price level
         var (price, canGet) =  currentPrice();
         uint256 toGet = _value.div(price);
 
+        // Act based on amount of tokens to get
         if (canGet == 0) {
             toGet = 0;
         } else if (toGet > canGet) {
@@ -94,11 +129,11 @@ contract TokenOfGratitude is StandardToken, PriceChecker {
         } else if (tokensLeft > 300) {
             return (200 finney, tokensLeft - 300);
         } else if (tokensLeft > 200) {
-            return (500 finney, tokensLeft - 200);
+            return (300 finney, tokensLeft - 200);
         } else if (tokensLeft > 100) {
-            return (750 finney, tokensLeft - 100);
+            return (400 finney, tokensLeft - 100);
         } else {
-            return (1 ether, tokensLeft);
+            return (500 finney, tokensLeft);
         }
     }
 
@@ -108,67 +143,165 @@ contract TokenOfGratitude is StandardToken, PriceChecker {
      * @param message should contain an encrypted contract info of the redeemer to setup a meeting
      */
     function redeem(string message) {
+
+        // Check caller has a token
         require (balances[msg.sender] >= 1);
+
+        // Check tokens did not expire
         require (now <= expirationDate);
 
+        // Lock the token against further transfers
         balances[msg.sender] -= 1;
         redeemed[msg.sender] += 1;
 
-        // TODO: add UI for encrypted message field on the website
+        // Call out
         tokenRedemption(msg.sender, message);
+    }
+
+    /**
+     * Function using the Golden ticket - the current holder will be able to get the prize only based on the "goldenTicketUsed" event
+     * @dev First checks the GT owner, then fires the event and then changes the owner to null so GT can't be used again
+     * @param message should contain an encrypted contract info of the redeemer to claim the reward
+     */
+    function useGoldenTicket(string message){
+        require(msg.sender == goldenTicketOwner);
+        goldenTicketUsed(msg.sender, message);
+        goldenTicketOwner = 0x0;
+    }
+
+    /**
+     * Function using the Golden ticket - the current holder will be able to get the prize only based on the "goldenTicketUsed" event
+     * @dev First checks the GT owner, then change the owner and fire an event about the ticket changing owner
+     * @user The Golden ticket isn't a standard ERC20 token and therefore it needs special handling
+     * @param newOwner should be a valid address of the new owner
+     */
+    function giveGoldenTicket(address newOwner) {
+        require (msg.sender == goldenTicketOwner);
+        goldenTicketOwner = newOwner;
+        goldenTicketMoved(newOwner);
     }
 
     /**
      * Funds withdrawal and fundraiser finalization function
      * @dev requires to load the ETHUSD rate using getRateUSD() function otherwise throws
      */
-    function withdrawFunds() {
-        // Owner check replacing more expensive modifier
-        require(owner == msg.sender);
 
-        // Check the rate was queried less then 1 hour ago.
-        // This check also proves that the rate was queried at all.
+    function prepareFinalization() {
+        // Owner check
+        require(msg.sender == owner);
+
+        // Check the fundraiser period is over
+        require(now >= fundraiserEnd);
+
+        // Make two Oraclize queries for ETHUSD rate and a random number
+        getRateUSD();
+        getRandom();
+
+        // Helper boolen for the "finalizeFundraiser()" function
+        fundraising = false;
+    }
+
+    function finalizeFundraiser() {
+
+        // Owner check replacing more expensive modifier
+        require(msg.sender == owner);
+
+        // Check the "prepareFinalization" function was called
+        require(!fundraising);
+
+        // Check the rate was queried less then 1 hour ago
+        // This check also proves that the rate was queried at all
         require((now - rateAge) <= 3600);
+
+        // Check the random number was received
+        require(haveRandom);
 
         // Calling checkResult from PriceChecker contract
         uint256 funding = checkResult();
-        uint256 raisedWei = this.balace;
+        uint256 raisedWei = this.balance;
 
         // If goal isn't met => send everything to MSF
         if (funding < 10000) {
             addressOfMSF.transfer(raisedWei);
             fundsToMSF(toCharity);
         } else if (funding < 25000) {
-            // if 2nd goal isn't met => send the rest to charity
-            raisedWei = this.balance;
+
+            // If 2nd goal isn't met => send the rest above the 1st goal to MSF
             uint256 charityShare = toPercentage(funding, funding-10000);
             uint256 toCharity = fromPercentage(raisedWei, charityShare);
+
             // Donate to charity first
             addressOfMSF.transfer(toCharity);
             fundsToMSF(toCharity);
+
             // Send funds to community;
             owner.transfer(raisedWei - toCharity);
             fundsToCommunity(raisedWei - toCharity);
         } else {
+
+            // If 2nd goal is met => send the rest above the 2nd goal to MSF
             uint256 charityShare = toPercentage(funding, funding-25000);
             uint256 toCharity = fromPercentage(raisedWei, charityShare);
+
             // Donate to charity first
             addressOfMSF.transfer(toCharity);
             fundsToMSF(toCharity);
+
             // Send funds to community;
             owner.transfer(raisedWei - toCharity);
             fundsToCommunity(raisedWei - toCharity);
         }
 
-        // close the fundraiser (any donation after this will throw)
-        fundraising = false;
+        // close the fundraiser
         finishFundraiser(funding);
-
     }
 
+    /**
+     * @dev Checking results of the fundraiser in USD
+     * @return rated - total funds raised converted to USD
+     */
+    function checkResult() internal returns (uint256){
+        uint256 raised = this.balance;
+        // convert wei => usd to perform checks
+        uint256 rated = (raised.mul(rate)).div(10000000000000000000000);
+        return rated;
+    }
+
+    /**
+     * Helper function to get split funds between the community and charity I
+     * @dev Counts percentage of the total funds that belongs to the charity
+     * @param total funds raised in USD
+     * @param part of the total funds raised that should go to the charity
+     * @return percentage in full expressed as a natural number between 0 and 100
+     */
+    function toPercentage (uint256 total, uint256 part) internal returns (uint256) {
+        return (part*100)/total;
+    }
+
+    /**
+     * Helper function to get split funds between the community and charity II
+     * @dev Counts the exact amount of Wei to get send to the charity
+     * @param total funds raised in Wei
+     * @param percentage to be used obtained from the toPercentage(2) function
+     * @return amount of Wei to be send to the charity
+     */
+    function fromPercentage(uint256 value, uint256 percentage) internal returns (uint256) {
+        return (value*percentage)/100;
+    }
+
+    // ToG handing-over event
+    event tokensGranted(address indexed donor, uint tokens);
+
+    // Fundraising finalization events
+    event finishFundraiser(uint raised);
     event fundsToMSF(uint value);
     event fundsToCommunity(uint value);
-    event tokensGranted(uint tokens);
-    event finishFundraiser(uint raised);
-    event tokenRedemption(address supporter, string message);
+
+    // ToG redeem event with encrypted message (hopefully a contact info)
+    event tokenRedemption(address indexed supported, string message);
+
+    // Special events for a very special golden ticket!
+    event goldenTicketFound(address winner);
+    event goldenTicketMoved(address indexed newOwner);
+    event goldenTicketUsed(address charlie, string message);
 }
