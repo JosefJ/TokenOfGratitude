@@ -54,8 +54,8 @@ contract TokenOfGratitude is StandardToken, usingDataFeeds {
      */
     function TokenOfGratitude(){
         owner = msg.sender;
-        fundraiserEnd = now + 60 days;
-        expirationDate = now + 5 years;
+        fundraiserEnd = now + 1 hours;
+        expirationDate = now + 2 hours;
     }
 
     /**
@@ -123,15 +123,15 @@ contract TokenOfGratitude is StandardToken, usingDataFeeds {
     function currentPrice() constant returns (uint256 price, uint256 maxAtPrice){
 
         if (tokensLeft > 400) {
-            return (100 finney, tokensLeft - 400);
+            return (1 finney, tokensLeft - 400);
         } else if (tokensLeft > 300) {
-            return (200 finney, tokensLeft - 300);
+            return (2 finney, tokensLeft - 300);
         } else if (tokensLeft > 200) {
-            return (300 finney, tokensLeft - 200);
+            return (3 finney, tokensLeft - 200);
         } else if (tokensLeft > 100) {
-            return (400 finney, tokensLeft - 100);
+            return (4 finney, tokensLeft - 100);
         } else {
-            return (500 finney, tokensLeft);
+            return (5 finney, tokensLeft);
         }
     }
 
