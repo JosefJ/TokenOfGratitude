@@ -13,7 +13,7 @@ contract TokenOfGratitude is StandardToken, usingDataFeeds {
     uint256 public totalSupply = 500;
 
     // Utility variables
-    uint256 tokensLeft = 500;
+    uint256 public tokensLeft = 500;
     address public owner;
     bool public fundraising = true;
     bool public haveRandom;

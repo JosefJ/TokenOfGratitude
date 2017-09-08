@@ -13,7 +13,7 @@ contract TokenOfGratitude is StandardToken, usingDataFeeds {
     uint256 public totalSupply = 500;
 
     // Utility variables
-    uint256 tokensLeft = 500;
+    uint256 public tokensLeft = 500;
     address public owner;
     bool public fundraising = true;
     bool public haveRandom;
@@ -50,12 +50,11 @@ contract TokenOfGratitude is StandardToken, usingDataFeeds {
 
     /**
      * constructor setting up the owner and the exact expiration time
-     * @dev TODO: reconsider changing timestamp to blocknumber estimate
      */
     function TokenOfGratitude(){
         owner = msg.sender;
-        fundraiserEnd = now + 1 hours;
-        expirationDate = now + 2 hours;
+        fundraiserEnd = now + 5 days;
+        expirationDate = now + 10 days;
     }
 
     /**
@@ -94,7 +93,6 @@ contract TokenOfGratitude is StandardToken, usingDataFeeds {
      * @dev Recalculating tokens to receive based on teh currentPrice(2) function.
      * @dev Number of recursive entrances is equal to the number of price levels (not counting the initial call)
      * @return toGet - amount of tokens to receive from the particular price range
-     * @dev TODO: see if SafeMath should be used in any place here other then _value.div(price)
      */
     function howMany(uint256 _value) internal returns (uint256){
 
@@ -123,15 +121,15 @@ contract TokenOfGratitude is StandardToken, usingDataFeeds {
     function currentPrice() constant returns (uint256 price, uint256 maxAtPrice){
 
         if (tokensLeft > 400) {
-            return (1 finney, tokensLeft - 400);
+            return (10 finney, tokensLeft - 400);
         } else if (tokensLeft > 300) {
-            return (2 finney, tokensLeft - 300);
+            return (20 finney, tokensLeft - 300);
         } else if (tokensLeft > 200) {
-            return (3 finney, tokensLeft - 200);
+            return (30 finney, tokensLeft - 200);
         } else if (tokensLeft > 100) {
-            return (4 finney, tokensLeft - 100);
+            return (40 finney, tokensLeft - 100);
         } else {
-            return (5 finney, tokensLeft);
+            return (50 finney, tokensLeft);
         }
     }
 
