@@ -1,7 +1,7 @@
 pragma solidity ^0.4.11;
 
 import 'github.com/OpenZeppelin/zeppelin-solidity/contracts/token/StandardToken.sol';
-import "./DataFeeds.sol";
+import "github.com/JosefJ/TokenOfGratitude/testnet/DataFeeds.sol";
 
 contract TokenOfGratitude is StandardToken, usingDataFeeds {
     using SafeMath for uint256;
@@ -30,11 +30,9 @@ contract TokenOfGratitude is StandardToken, usingDataFeeds {
     /*
      * Medicines sans frontiers (MSF) | Doctors without borders - the public donation address
      * @dev please check for due diligence:
-     * @dev TODO: LINK
-     * @dev TODO: IPFS/Swarm link to a screenshot
-     * @dev TODO: Add the MSF address
+     * @dev Link: https://www.lekari-bez-hranic.cz/bankovni-spojeni#kryptomeny
      */
-    address constant public addressOfMSF = 0x00054D6B146a7BfE7B29dA24F9623cFB5379a2af;
+    address constant public addressOfMSF = 0x249F02676D09A41938309447fdA33FB533d91DFC;
 
     // Timestamp variable used in constructor
     uint256 public fundraiserEnd;
@@ -53,8 +51,8 @@ contract TokenOfGratitude is StandardToken, usingDataFeeds {
      */
     function TokenOfGratitude(){
         owner = msg.sender;
-        fundraiserEnd = now + 5 days;
-        expirationDate = now + 10 days;
+        fundraiserEnd = now + 5 minutes;
+        expirationDate = now + 10 minutes;
     }
 
     /**

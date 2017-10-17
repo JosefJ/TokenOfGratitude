@@ -30,11 +30,11 @@ contract TokenOfGratitude is StandardToken, usingDataFeeds {
     /*
      * Medicines sans frontiers (MSF) | Doctors without borders - the public donation address
      * @dev please check for due diligence:
-     * @dev TODO: LINK
+     * @dev LINK to MSF address: https://www.lekari-bez-hranic.cz/bankovni-spojeni#kryptomeny
      * @dev TODO: IPFS/Swarm link to a screenshot
      * @dev TODO: Add the MSF address
      */
-    address constant public addressOfMSF = 0x00054D6B146a7BfE7B29dA24F9623cFB5379a2af;
+    address constant public addressOfMSF = 0x249F02676D09A41938309447fdA33FB533d91DFC;
 
     // Timestamp variable used in constructor
     uint256 public fundraiserEnd;
