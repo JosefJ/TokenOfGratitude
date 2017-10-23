@@ -10,7 +10,7 @@ contract TokenOfGratitude is StandardToken, usingDataFeeds {
     string constant public name = "Token Of Gratitude";
     string constant public symbol = "ToG";
     uint8 constant public decimals = 0;
-    uint256 public totalSupply = 500;
+    uint256 constant public totalSupply = 500;
 
     // Utility variables
     uint256 public tokensLeft = 500;
@@ -30,9 +30,9 @@ contract TokenOfGratitude is StandardToken, usingDataFeeds {
     /*
      * Medicines sans frontiers (MSF) | Doctors without borders - the public donation address
      * @dev please check for due diligence:
-     * @dev LINK to MSF address: https://www.lekari-bez-hranic.cz/bankovni-spojeni#kryptomeny
-     * @dev TODO: IPFS/Swarm link to a screenshot
-     * @dev TODO: Add the MSF address
+     * @notice Link to English site: https://www.lekari-bez-hranic.cz/en/bank-details#cryptocurrencies
+     * @notice Link to Czech site: https://www.lekari-bez-hranic.cz/bankovni-spojeni#kryptomeny
+     * @notice Link to Etherscan: https://etherscan.io/address/0x249f02676d09a41938309447fda33fb533d91dfc
      */
     address constant public addressOfMSF = 0x249F02676D09A41938309447fdA33FB533d91DFC;
 
@@ -94,7 +94,6 @@ contract TokenOfGratitude is StandardToken, usingDataFeeds {
      * @dev Recalculating tokens to receive based on teh currentPrice(2) function.
      * @dev Number of recursive entrances is equal to the number of price levels (not counting the initial call)
      * @return toGet - amount of tokens to receive from the particular price range
-     * @dev TODO: see if SafeMath should be used in any place here other then _value.div(price)
      */
     function howMany(uint256 _value) internal returns (uint256){
 
