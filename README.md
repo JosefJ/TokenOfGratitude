@@ -74,7 +74,7 @@ Expiration of the token is 5 years!
 
 **How is it possible to redeem the token?**
 
-If you are a token holder, use the "redeem(string message)" function of the contract to send me an encrypted message with your contact details (can be a one purpuse email, signal, telegram, facebook,...).
+If you are a token holder, use the "redeem(string message)" function of the contract to send me an encrypted message with your contact details (can be a one purpose email, signal, telegram, facebook,...).
 The redeem service (with encryption) will be available on the website sometime during the sale.
 TODO: choose an encryption method
 
@@ -86,10 +86,11 @@ By participating in the fundraiser you ("The Participant") agree with following:
 1. The Initiating party won't use any collected funds as a reward for itself.
 1. After the fundraiser is over, any expense larger than 100 USD made from the community account will be documented and explained publicly.
 1. Any promise made in the fundraiser isn't legally enforceable in any jurisdiction know to men yet and thus fulfilling of those promises lie solely on the reputation of the party Initiating it.
-1. The Participant agrees to publicly shame the Initiating party in case of miss conduct of the initiating party related to the this fundraiser.
-1. The jurisdiction for a potential legal dispute is herby the free planet of Mars (If you want to sue me, first get there).
+1. The Participant agrees to publicly shame the Initiating party in case of miss conduct of the initiating party related to this fundraiser.
+1. The jurisdiction for a potential legal dispute is hereby the free planet of Mars (If you want to sue me, first get there).
 1. The Initiating party reserves the right to defend itself in a hypothetical Twitter flamewar.
 1. The Participant agrees to call his/her parents immediately, without an unreasonable delay after participating in the fundraiser.
+
 ## <sup>not really</sup> FAQ
 **Q:** Is the fundraiser running on Ethereum or EthereumClassic?
 
