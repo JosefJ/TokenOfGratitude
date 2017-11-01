@@ -10,7 +10,7 @@ The side effects are the following:
 #### Token specification (ERC20)
 - Name: Token of Gratitude
 - Symbol: ToG
-- Total supply: 500
+- Total supply: 500 (max)
 - Decimals: 0
 
 Additional specs:
@@ -48,8 +48,8 @@ The price is given for each set of 100 tokens as follows:
  4. 100 tokens at 0.4 eth each
  5. 100 tokens at 0.5 eth each
 
- Current price is accessible though an constant public function and will be visible on the website.
- It's possible to buy more then 100 tokens at once - the price will be recounted according to the value of the transaction.
+ Current price is accessible through an constant public function and will be visible on the website.
+ It's possible to buy more than 100 tokens at once - the price will be recounted according to the value of the transaction.
  Anything send above the current token price will be considered a donation.
 
 ### Token usability
@@ -57,10 +57,10 @@ In any case the tokens can be redeemed for a drink (beer price range).
 
 If the first goal is met, any ToG redeemer will have a free entry into the hub for one year.
 
-If the second goal is met, any ToG redeemer will get an priority invitation for paper submition and at least 33% discount off the conference ticket price (ticket prices are however unknown for now).
+If the second goal is met, any ToG redeemer will get an priority invitation for paper submission and at least 33% discount off the conference ticket price (ticket prices are however unknown for now).
 
 
-**When is it possible to reedem your token for a drink?**
+**When is it possible to redeem your token for a drink?**
 Anytime we come across each other. You will have to send your hashed contact
 details in the parameter during redeeming your ToG (can be a single purposed email or whatever) and send me an email to:
 tog@blockchainforthepeople.com with the contact details you have used to create the hash. There will be a simple UI provided for that on the website.
@@ -70,7 +70,6 @@ Expiration of the token is 5 years!
 **Where is it possible to redeem the token?**
 
 * Mostly in Prague, Czech Republic
-* Between 31.10. -  4.11.2017 in Cancún, Mexico (DEVCON3)
 * More locations can be reported on twitter as I move
 
 **How is it possible to redeem the token?**
@@ -83,13 +82,13 @@ TODO: choose an encryption method
 By participating in the fundraiser you ("The Participant") agree with following:
 1. All contributions are voluntary and non refundable.
 1. The cause of this fundraiser isn't sale of a product or service.
-1. The cause of this fundraiser is to experiment with community crowdsourcing posibilities.
+1. The cause of this fundraiser is to experiment with community crowdsourcing possibilities.
 1. The Initiating party won't use any collected funds as a reward for itself.
 1. After the fundraiser is over, any expense larger than 100 USD made from the community account will be documented and explained publicly.
-1. Any promise made in the fundraiser isn't legally enforceable in any jurisdiction know to men yet and thus fullfiling of those promises lie solely on the reputation of the party Initiating it.
+1. Any promise made in the fundraiser isn't legally enforceable in any jurisdiction know to men yet and thus fulfilling of those promises lie solely on the reputation of the party Initiating it.
 1. The Participant agrees to publicly shame the Initiating party in case of miss conduct of the initiating party related to the this fundraiser.
 1. The jurisdiction for a potential legal dispute is herby the free planet of Mars (If you want to sue me, first get there).
-1. The Initiating party reserves the right to defend itself in a hypotetical Twitter flamewar.
+1. The Initiating party reserves the right to defend itself in a hypothetical Twitter flamewar.
 1. The Participant agrees to call his/her parents immediately, without an unreasonable delay after participating in the fundraiser.
 ## <sup>not really</sup> FAQ
 **Q:** Is the fundraiser running on Ethereum or EthereumClassic?
