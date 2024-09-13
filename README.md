@@ -63,7 +63,7 @@ If the second goal is met, any ToG redeemer will get an priority invitation for 
 **When is it possible to redeem your token for a drink?**
 Anytime we come across each other. You will have to send your hashed contact
 details in the parameter during redeeming your ToG (can be a single purposed email or whatever) and send me an email to:
-tokenofgratitude@protonmail.com with the contact details you have used to create the hash. There will be a simple UI provided for that on the website.
+me@josef.je with the contact details you have used to create the hash. There will be a simple UI provided for that on the website.
 I'll react asap and we can schedule a meeting - once the hub is open this should be much more easier.
 Expiration of the token is 5 years!
 
